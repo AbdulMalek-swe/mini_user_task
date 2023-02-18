@@ -29,7 +29,7 @@ module.exports.updateUserService = async (userId, userUpdateData, role) => {
     const findUser = await User.findById(userId);
     let result;
     if (role.includes("manager") && !findUser?.role.includes("admin")) {
-        result = await findUser.set(userUpdateData).save();
+        result = await User.updateOne({_id:userId},{username:userUpdateData?.username,email:userUpdateData?.email},{runValidators:true})
     }
     else if (role.includes("admin")) {
         result = await findUser.set(userUpdateData).save();
